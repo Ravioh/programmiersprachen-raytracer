@@ -16,16 +16,19 @@
 #include <string>
 #include <glm/glm.hpp>
 
-class Renderer
-{
+#include "sdfloader.h"
+
+class Renderer {
 public:
-  Renderer(unsigned w, unsigned h, std::string const& file);
+  Renderer(unsigned w, unsigned h, std::string const& file, SDFLoader const& sdfloader);
 
   void render();
   void write(Pixel const& p);
+  void testOutput();
+  Color calculateColor(const Shape* hit_obj, glm::vec3 const& hit_point, Ray const& prim_ray);
+  bool Shadow(Ray sec_ray);
 
-  inline std::vector<Color> const& colorbuffer() const
-  {
+  inline std::vector<Color> const& colorbuffer() const {
     return colorbuffer_;
   }
 
@@ -35,6 +38,11 @@ private:
   std::vector<Color> colorbuffer_;
   std::string filename_;
   PpmWriter ppm_;
+  SDFLoader sdfloader_;
+
+  Camera camera_;
+  std::vector<Shape*> shapes_;
+  std::vector<Light*> lights_;
 };
 
 #endif // #ifndef BUW_RENDERER_HPP
