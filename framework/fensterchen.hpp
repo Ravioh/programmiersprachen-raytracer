@@ -12,9 +12,5 @@
 
 #include "color.hpp"
 #include "window.hpp"
-#include "sdfloader.h"
-#include "material.h"
-#include "sphere.h"
-#include "shape.h"
 
 #endif // BUW_FENSTERCHEN_HPP
