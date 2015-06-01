@@ -1,3 +1,8 @@
+#ifndef RAY_H
+#define RAY_H
+
+
+
 #include <glm/glm.hpp>
 
 struct Ray {
@@ -10,3 +15,5 @@ struct Ray {
 	glm::vec3 direction_inv;
     unsigned depth;
 };
+
+#endif		/*RAY_H*/
