@@ -157,7 +157,7 @@ void SDFLoader::readFile(std::string file) {
 
 Material SDFLoader::checkMaterialName(std::string name) {
 	unsigned int found_at = -1;
-	for (int j = 0; j < materials_.size() && found_at == -1; ++j) {
+	for (unsigned int j = 0; j < materials_.size() && found_at == -1; ++j) {
 		if (materials_.at(j)->getName().compare(name) == 0)
 			found_at = j;
 	}
