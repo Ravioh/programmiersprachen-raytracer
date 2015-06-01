@@ -8,7 +8,7 @@
 class Light {
 public:
 	Light();
-	Light(std::string name, glm::vec3 position, Color la, Color ld);
+	Light(std::string name, glm::vec3 position, const Color la, const Color ld);
 
 	std::string getName();
 	glm::vec3 getPosition();

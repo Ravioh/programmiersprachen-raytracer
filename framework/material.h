@@ -11,7 +11,7 @@
 class Material {
 public:
 	Material();
-	Material(std::string name, Color ka, Color kd, Color ks, float m);
+	Material(std::string name, const Color ka, const Color kd, const Color ks, float m);
 	~Material();
 
 	std::string getName();
