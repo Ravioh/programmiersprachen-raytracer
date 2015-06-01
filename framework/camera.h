@@ -1,3 +1,8 @@
+#ifndef CAMERA_H
+#define CAMERA_H
+
+
+
 #include <glm/glm.hpp>
 
 struct Camera {
@@ -17,5 +22,5 @@ struct Camera {
 
 };
 
-
+#endif /*CAMERA_H*/
 
