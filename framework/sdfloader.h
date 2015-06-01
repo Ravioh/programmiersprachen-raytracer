@@ -4,7 +4,7 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
-#include <glm/glm.hpp >
+#include <glm/glm.hpp>
 #include "material.h"
 #include "shape.h"
 #include "sphere.h"
