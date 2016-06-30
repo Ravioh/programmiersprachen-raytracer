@@ -1,18 +1,21 @@
 #include "sdfloader.h"
+#include <cstdlib>
+#include <thread>
+#include <scene.h>
+
 
 SDFLoader::SDFLoader() {}
-SDFLoader::~SDFLoader() {}
 
-std::vector<Material*> SDFLoader::getMaterials() {
+std::vector<Material> SDFLoader::getMaterials() {
 	return materials_;
 }
 Camera SDFLoader::getCamera() {
 	return camera_;
 }
-std::vector<Light*> SDFLoader::getLights() {
-	return lights_; 
+std::vector<Light> SDFLoader::getLights() {
+	return lights_;
 }
-std::vector<Shape*> SDFLoader::getShapes() {
+std::vector<std::shared_ptr<Shape>> SDFLoader::getShapes() {
 	return shapes_;
 }
 
@@ -25,15 +28,15 @@ void SDFLoader::readFile(std::string file) {
 
 		while (ifs.good()) {
 			ifs.getline(line, 256);
-			std::cout << line << std::endl; 
+			std::cout << line << std::endl;
 			std::vector<std::string> words = splitLine(line);
 			unsigned int i = 0;
 			while (i < words.size()) {
 
-			
+
 				if (words[i].compare("define") == 0) {
 
-			
+
 					if (words[i + 1].compare("material") == 0) {
 						std::string name = words[i + 2];
 						Color ks = Color(
@@ -42,8 +45,8 @@ void SDFLoader::readFile(std::string file) {
 							std::stof(words[i + 11])
 						);
 						Color ka = Color(
-							std::stof(words[i + 3]), 
-							std::stof(words[i + 4]), 
+							std::stof(words[i + 3]),
+							std::stof(words[i + 4]),
 							std::stof(words[i + 5])
 						);
 						Color kd = Color(
@@ -52,9 +55,9 @@ void SDFLoader::readFile(std::string file) {
 							std::stof(words[i + 8])
 						);
 						float m = std::stof(words[i + 12]);
-						Material *new_material = new Material(name, ka, kd, ks, m);
-						materials_.push_back(dynamic_cast<Material*>(new_material));
-						i = i + 13; 
+						Material new_material(name, ka, kd, ks, m);
+						materials_.push_back(new_material);
+						i = i + 13;
 
 
 					} else if (words[i + 1].compare("shape") == 0) {
@@ -69,8 +72,8 @@ void SDFLoader::readFile(std::string file) {
 								);
 							double radius = std::stod(words[i + 7]);
 							Material material = checkMaterialName(words[i + 8]);
-							Sphere *new_sphere = new Sphere(name, center, radius, material);
-							shapes_.push_back(dynamic_cast<Sphere*>(new_sphere));
+							auto new_sphere = std::make_shared<Sphere>(name, center, radius, material);
+							shapes_.push_back(new_sphere);
 							i = i + 9;
 
 
@@ -83,8 +86,8 @@ void SDFLoader::readFile(std::string file) {
 								);
 							double d = std::stod(words[i + 7]);
 							Material material = checkMaterialName(words[i + 8]);
-							Plane *globbi = new Plane(name, normal, d, material);
-							shapes_.push_back(dynamic_cast<Plane*>(globbi));
+							auto globbi = std::make_shared<Plane>(name, normal, d, material);
+							shapes_.push_back(globbi);
 							i = i + 9;
 
 						} else if (words[i + 2].compare("box") == 0) {
@@ -100,8 +103,8 @@ void SDFLoader::readFile(std::string file) {
 								std::stod(words[i + 9])
 								);
 							Material material = checkMaterialName(words[i + 10]);
-							Box *new_box = new Box(name, p0, p1, material);
-							shapes_.push_back(dynamic_cast<Box*>(new_box));
+							auto new_box = std::make_shared<Box>(name, p0, p1, material);
+							shapes_.push_back(new_box);
 							i = i + 11;
 
 						//If shape not supported
@@ -116,7 +119,7 @@ void SDFLoader::readFile(std::string file) {
 						camera_.name = name;
 						camera_.opening_angle = opening_angle;
 						i = i + 4;
-					
+
 					//Lightsource
 					} else if (words[i + 1].compare("light") == 0) {
 						std::string name = words[i + 2];
@@ -135,8 +138,8 @@ void SDFLoader::readFile(std::string file) {
 							std::stof(words[i + 10]),
 							std::stof(words[i + 11])
 						);
-						Light *manni = new Light(name, position, la, ld);
-						lights_.push_back(dynamic_cast<Light*>(manni));
+						Light manni(name, position, la, ld);
+						lights_.push_back(manni);
 						i = i + 12;
 
 					} else {
@@ -158,7 +161,7 @@ void SDFLoader::readFile(std::string file) {
 Material SDFLoader::checkMaterialName(std::string name) {
 	unsigned int found_at = -1;
 	for (unsigned int j = 0; j < materials_.size() && found_at == -1; ++j) {
-		if (materials_.at(j)->getName().compare(name) == 0)
+		if (materials_.at(j).getName().compare(name) == 0)
 			found_at = j;
 	}
 	Material material;
@@ -180,7 +183,7 @@ std::vector<std::string> SDFLoader::splitLine(std::string line) {
 		std::string word;
 		ssin >> word;
 		words.push_back(word);
-	}	
+	}
 	return words;
 }
 
