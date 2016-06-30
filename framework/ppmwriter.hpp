@@ -15,7 +15,7 @@
 #include <vector>
 
 // header, project
-#include <pixel.hpp>
+#include "pixel.hpp"
 
 class PpmWriter
 {
