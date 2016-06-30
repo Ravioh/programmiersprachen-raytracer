@@ -7,11 +7,12 @@
 // Renderer
 // -----------------------------------------------------------------------------
 #define _USE_MATH_DEFINES
+#define M_PI           3.14159265358979323846
 
 #include "renderer.hpp"
 #include <math.h>
 
-Renderer::Renderer(unsigned w, unsigned h, std::string const& file, SDFLoader const& sdfloader) 
+Renderer::Renderer(unsigned w, unsigned h, std::string const& file, SDFLoader const& sdfloader)
 	: width_(w)
 	, height_(h)
 	, colorbuffer_(w*h, Color(0.0, 0.0, 0.0))
@@ -22,13 +23,13 @@ Renderer::Renderer(unsigned w, unsigned h, std::string const& file, SDFLoader co
 
 void Renderer::render() {
 
-	
+
 	camera_ = sdfloader_.getCamera();
 	shapes_ = sdfloader_.getShapes();
 	lights_ = sdfloader_.getLights();
 
-	camera_.position = glm::vec3(0, 0, tan((90 - camera_.opening_angle / 2) * M_PI / 180) * (width_ / 2));
-	testOutput(); 
+	camera_.position = glm::vec3(0, 0, tan((90.0 - camera_.opening_angle / 2.0) * M_PI / 180.0) * (double(width_) / 2.0));
+	testOutput();
 
 	Ray first_ray;
 	for (unsigned y = 0; y < height_; ++y) {
@@ -36,7 +37,7 @@ void Renderer::render() {
 			Pixel p(x, y);
 
 			//first ray is created here
-			glm::vec3 poip = glm::vec3((double)x - width_ / 2, (double)y - height_ / 2, 0);
+			glm::vec3 poip = glm::vec3(double(x) - double(width_) / 2.0, double(y) - double(height_) / 2.0, 0);
 			first_ray.origin = camera_.position;
 			first_ray.direction = poip - camera_.position;
 
@@ -92,21 +93,21 @@ void Renderer::testOutput() {
 }
 
 Color Renderer::calculateColor(const Shape* hit_obj, glm::vec3 const& hit_point, Ray const& first_ray) {
-	Color final_color = Color(0.0, 0.0, 0.0);	
+	Color final_color = Color(0.0, 0.0, 0.0);
 
 	for (unsigned int i = 0; i < lights_.size(); ++i) {
 
 		glm::vec3 n = hit_obj->getNormalAt(hit_point);
-		glm::vec3 l = lights_[i]->getPosition() - hit_point;
+		glm::vec3 l = lights_[i].getPosition() - hit_point;
 
 		Ray sec_ray = Ray(hit_point, l);
 
 		Color diffuse_light;
 		Color specular_light;
 		if (!Shadow(sec_ray) && glm::dot(glm::normalize(n), glm::normalize(l)) > 0) {
-	
-			Color Ip = lights_[i]->getLD();
-			Color kd = hit_obj->getMaterial().getKD();			
+
+			Color Ip = lights_[i].getLD();
+			Color kd = hit_obj->getMaterial().getKD();
 			diffuse_light = (Ip * kd * glm::dot(glm::normalize(n), glm::normalize(l)));
 
 			glm::vec3 r = 2 * glm::dot(glm::normalize(n), glm::normalize(l)) * glm::normalize(n) - glm::normalize(l);
@@ -123,11 +124,10 @@ Color Renderer::calculateColor(const Shape* hit_obj, glm::vec3 const& hit_point,
 
 			diffuse_light = Color(0.0, 0.0, 0.0);
 			specular_light = Color(0.0, 0.0, 0.0);
-		}					
+		}
 		final_color += diffuse_light + specular_light;
-	}	
-
-	Color Ia = lights_[0]->getLA();
+	} A§"!!
+	Color Ia = lights_[0].getLA();
 	Color ka = hit_obj->getMaterial().getKA();
 	Color ambient_light = Ia * ka;
 	final_color += ambient_light;
@@ -135,9 +135,11 @@ Color Renderer::calculateColor(const Shape* hit_obj, glm::vec3 const& hit_point,
 	return final_color;
 }
 
-bool Renderer::Shadow(Ray sec_ray) {
+bool Renderer::Shadow(Ray const& sec_ray) const {
+	// for (auto const& l : lights) {
+	// }
 	for (unsigned int i = 0; i < shapes_.size(); ++i) {
-		double d = shapes_[i]->intersect(sec_ray);
+     	double d = shapes_[i]->intersect(sec_ray);
 		if (d > 0 && d < 1)
 			return true;
 	}
