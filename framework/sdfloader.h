@@ -12,26 +12,29 @@
 #include "box.h"
 #include "camera.h"
 #include "light.h"
+#include <memory>
+#include "scene.h"  //#include "scene.h"
 
 class SDFLoader {
 public:
 	SDFLoader();
-	~SDFLoader();
 
 	static std::vector<std::string> splitLine(std::string line);
 	void readFile(std::string file);
-	std::vector<Material*> getMaterials();
-	std::vector<Shape*> getShapes();
-	std::vector<Light*> getLights();
+	std::vector<Material> getMaterials();
+	std::vector<std::shared_ptr<Shape>> getShapes();
+	std::vector<Light> getLights();
 	Camera getCamera();
 	Material checkMaterialName(std::string name);
 
-	
+
 
 private:
-	std::vector<Material*> materials_;
-	std::vector<Shape*> shapes_;
-	std::vector<Light*> lights_;
+    // move to Scene
+    // TODO: std::map<std::string, Material> materials_;
+	std::vector<Material> materials_; // TODO remove
+	std::vector<std::shared_ptr<Shape>> shapes_;
+	std::vector<Light> lights_;
 	Camera camera_;
 };
 
