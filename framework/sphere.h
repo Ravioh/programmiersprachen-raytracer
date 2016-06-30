@@ -3,7 +3,7 @@
 
 #include <iosfwd>
 
-#include <color.hpp>
+#include "color.hpp"
 #include <glm/glm.hpp>
 
 #include "shape.h"
@@ -11,26 +11,21 @@
 class Sphere : public Shape {
 public:
 	Sphere();
-	Sphere(std::string name, glm::vec3 center, double radius, Material material);
+	Sphere(std::string const& name, glm::vec3 const& center, double radius, Material const& material);
 	~Sphere();
 
-	/* virtual */ std::string getName();
-	/* virtual */ Material getMaterial() const;
-	/* virtual */ double intersect(Ray ray);
-	/* virtual */ glm::vec3 getNormalAt(glm::vec3 point) const;
+	double intersect(Ray const& ray) override;
+	bool intersect_shadow(Ray const& ray) const override { return false; }
+	glm::vec3 const& getNormalAt(glm::vec3 point) const override;
 
-	glm::vec3 getCenter();
+	glm::vec3 const& getCenter() const;
 	double getRadius();
-	
-	void setName(std::string name);
-	void setCenter(glm::vec3 center);
+
+	void setCenter(glm::vec3 const& center);
 	void setRadius(double radius);
-	void setMaterial(Material material);
 private:
-	std::string name_;
 	glm::vec3 center_;
 	double radius_;
-	Material material_;
 };
 
 #endif // BUW_SPHERE_HPP
