@@ -3,7 +3,7 @@
 
 #include <iosfwd>
 
-#include <color.hpp>
+#include "color.hpp"
 #include <glm/glm.hpp>
 
 #include "shape.h"
@@ -18,6 +18,7 @@ public:
 	/* virtual */ Material getMaterial() const;
 	/* virtual */ double intersect(Ray ray);
 	/* virtual */ glm::vec3 getNormalAt(glm::vec3 point) const;
+	bool intersect_shadow(Ray const& ray) const override { return false; }
 
 	bool isInPlane(glm::vec3 point);
 
