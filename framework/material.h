@@ -20,6 +20,8 @@ public:
 	Color getKS();
 	float getM();
 
+	friend std::ostream& operator<<(std::ostream& os, Material& m);
+
 private:
 	std::string name_;
 	Color ka_;
