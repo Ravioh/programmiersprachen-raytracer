@@ -14,7 +14,7 @@
 #include <iosfwd>
 
 // header, project
-#include <color.hpp>
+#include "color.hpp"
 
 class Pixel
 {
