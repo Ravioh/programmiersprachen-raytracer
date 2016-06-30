@@ -3,47 +3,41 @@
 #include <cmath>
 #include <algorithm>
 
-Sphere::Sphere() {
-	name_ = "";
-	center_ = glm::vec3(0.0, 0.0, 0.0);
-	radius_ = 1.0;
-	material_ = Material();
-}
-Sphere::Sphere(std::string name, glm::vec3 center, double radius, Material material) : name_( name ), center_( center ), radius_( radius ), material_( material ) {}
-Sphere::~Sphere() { }
+Sphere::Sphere()
+  : Shape()
+  , center_()
+  , radius_()
+  {}
 
-std::string Sphere::getName() {
-	return name_;
-}
-glm::vec3 Sphere::getCenter() {
+Sphere::Sphere(std::string const& name, glm::vec3 const& center, double radius, Material const& material)
+: Shape{ name, material },
+center_{ center },
+radius_{ radius }
+  {}
+
+
+glm::vec3 const& Sphere::getCenter() const {
 	return center_;
 }
-double Sphere::getRadius() {
+double Sphere::getRadius()  {
 	return radius_;
 }
-Material Sphere::getMaterial() const {
-	return material_;
-}
+
 glm::vec3 Sphere::getNormalAt(glm::vec3 point) const {
-	return point - center_;
+	return glm::normalize(point - center_);
 }
 
-void Sphere::setName(std::string name) {
-	name_ = name;
-}
-void Sphere::setCenter(glm::vec3 center) {
+
+void Sphere::setCenter(glm::vec3 const& center) {
 	center_ = center;
 }
 void Sphere::setRadius(double radius) {
 	radius_ = radius;
 }
-void Sphere::setMaterial(Material material) {
-	material_ = material;
-}
 
-// // // // // // // // // // // // // // // // // // // // // // // // // // // // 
+// // // // // // // // // // // // // // // // // // // // // // // // // // // //
 
-double Sphere::intersect(Ray ray) {
+double Sphere::intersect(Ray const& ray) {
 
 	// compute delta and handle cases
 	float a = glm::dot(ray.direction, ray.direction); // a = d*d
@@ -70,4 +64,4 @@ double Sphere::intersect(Ray ray) {
 	}
 }
 
-// // // // // // // // // // // // // // // // // // // // // // // // // // // // 
+// // // // // // // // // // // // // // // // // // // // // // // // // // // //
