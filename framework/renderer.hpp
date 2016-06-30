@@ -40,9 +40,10 @@ private:
   PpmWriter ppm_;
   SDFLoader sdfloader_;
 
+  //Scene scene_;
   Camera camera_;
-  std::vector<Shape*> shapes_;
-  std::vector<Light*> lights_;
+  std::vector<std::shared_ptr<Shape>> shapes_;
+  std::vector<Light> lights_;
 };
 
 #endif // #ifndef BUW_RENDERER_HPP
