@@ -1,36 +1,31 @@
 #include <thread>
 #include <renderer.hpp>
 #include <fensterchen.hpp>
-#include <vector>
 
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv[])
+{
+  unsigned const width = 600;
+  unsigned const height = 600;
+  std::string const filename = "./checkerboard.ppm";
 
-	// Load scene from sdf file
-	SDFLoader sdfloader = SDFLoader();
-	sdfloader.readFile("materials.sdf");
+  Renderer app(width, height, filename);
 
-	unsigned const width = 600;
-	unsigned const height = 600;
-	std::string const filename = "./checkerboard.ppm";
+  std::thread thr([&app]() { app.render(); });
 
-	Renderer app(width, height, filename, sdfloader);
+  Window win(glm::ivec2(width,height));
 
-	std::thread thr([&app]() { app.render(); });
+  while (!win.shouldClose()) {
+    if (win.isKeyPressed(GLFW_KEY_ESCAPE)) {
+      win.stop();
+    }
 
-	Window win(glm::ivec2(width,height));
+    glDrawPixels( width, height, GL_RGB, GL_FLOAT
+                , app.colorbuffer().data());
 
-	while (!win.shouldClose()) {
-	if (win.isKeyPressed(GLFW_KEY_ESCAPE)) {
-		win.stop();
-	}
+    win.update();
+  }
 
-	glDrawPixels( width, height, GL_RGB, GL_FLOAT
-				, app.colorbuffer().data());
+  thr.join();
 
-	win.update();
-	}
-
-	thr.join();
-
-	return 0;
+  return 0;
 }

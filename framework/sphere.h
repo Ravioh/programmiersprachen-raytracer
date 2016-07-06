@@ -5,7 +5,7 @@
 
 #include "color.hpp"
 #include <glm/glm.hpp>
-
+#include <cmath>
 #include "shape.h"
 
 class Sphere : public Shape {
@@ -14,9 +14,9 @@ public:
 	Sphere(std::string const& name, glm::vec3 const& center, double radius, Material const& material);
 	~Sphere();
 
-	double intersect(Ray const& ray) override;
+	double intersect(Ray const& ray);
 	bool intersect_shadow(Ray const& ray) const override { return false; }
-	glm::vec3 const& getNormalAt(glm::vec3 point) const override;
+	glm::vec3 const& getNormalAt(glm::vec3 point) const;
 
 	glm::vec3 const& getCenter() const;
 	double getRadius();

@@ -2,11 +2,15 @@
 #include <cstdlib>
 #include <thread>
 #include <scene.h>
+#include <cmath>
+#include <map>
+#include <material.h>
+
 
 
 SDFLoader::SDFLoader() {}
 
-std::vector<Material> SDFLoader::getMaterials() {
+std::map<std::string, std::shared_ptr<Material>>SDFLoader::getMaterials(){
 	return materials_;
 }
 Camera SDFLoader::getCamera() {
@@ -55,10 +59,15 @@ void SDFLoader::readFile(std::string file) {
 							std::stof(words[i + 8])
 						);
 						float m = std::stof(words[i + 12]);
-						Material new_material(name, ka, kd, ks, m);
-						materials_.push_back(new_material);
+
+						std::shared_ptr<Material> temp_ptr = std::make_shared<Material>(Material{ name, ka, kd, ks, m });
+						materials_.insert({ name, temp_ptr });
 						i = i + 13;
 
+						/*Material new_material(name, ka, kd, ks, m);
+						materials_.insert(new_material);*/
+						
+						
 
 					} else if (words[i + 1].compare("shape") == 0) {
 
@@ -106,6 +115,27 @@ void SDFLoader::readFile(std::string file) {
 							auto new_box = std::make_shared<Box>(name, p0, p1, material);
 							shapes_.push_back(new_box);
 							i = i + 11;
+
+
+							/*	} else if (words[i + 2] == "triangle") {
+							std::string name = words [i+3];
+							glm::vec3 left = glm:vec3(
+								std::stof(words[i + 4])
+								std::stof(words[i + 5]),
+								std::stof(words[i + 6])
+								);
+							glm::vec3 right = glm:vec3(
+								std::stof(words[i + 7]),
+								std::stof(words[i + 8]),
+								std::stof(words[i + 9]) };
+								glm::vec3 top = glm:vec3(
+								std::stof(words[i + 10]),
+								std::stof(words[i + 11]),
+								std::stof(words[i + 12]) };
+						
+							}*/
+
+
 
 						//If shape not supported
 						} else {
@@ -158,7 +188,7 @@ void SDFLoader::readFile(std::string file) {
 }
 
 
-Material SDFLoader::checkMaterialName(std::string name) {
+/*Material SDFLoader::checkMaterialName(const std::string name) {
 	unsigned int found_at = -1;
 	for (unsigned int j = 0; j < materials_.size() && found_at == -1; ++j) {
 		if (materials_.at(j).getName().compare(name) == 0)
@@ -173,7 +203,7 @@ Material SDFLoader::checkMaterialName(std::string name) {
 		material = *materials_.at(found_at);
 	}
 	return material;
-}
+}*/
 
 
 std::vector<std::string> SDFLoader::splitLine(std::string line) {

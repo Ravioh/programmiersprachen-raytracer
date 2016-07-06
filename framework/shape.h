@@ -5,6 +5,7 @@
 #include "ray.h"
 #include <memory>
 #include <glm/glm.hpp>
+#include <cmath>
 
 using namespace std; 
 
@@ -14,10 +15,10 @@ public:
 	Shape(std::string const& n, Material const& m) : name_(n), material_(m) {}
 
 	std::string const& getName() const { return name_; };
-	virtual double intersect(Ray const& ray) const = 0;
+	double intersect(Ray const& ray) const;
 	virtual bool intersect_shadow(Ray const& ray) const = 0;
 	Material const& getMaterial() const { return material_;  }
-    virtual glm::vec3 getNormalAt(glm::vec3 const& point) const = 0;
+    virtual glm::vec3 getNormalAt(glm::vec3 const& point) const;
 	void translate(glm::vec3 const& t);
 	void scale(glm::vec3 const& s);
 	void rotate(float deg, glm::vec3 const& axis);

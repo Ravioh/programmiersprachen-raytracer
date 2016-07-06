@@ -23,7 +23,7 @@ double Sphere::getRadius()  {
 	return radius_;
 }
 
-glm::vec3 Sphere::getNormalAt(glm::vec3 point) const {
+glm::vec3 const& Sphere::getNormalAt(glm::vec3 point) const {
 	return glm::normalize(point - center_);
 }
 

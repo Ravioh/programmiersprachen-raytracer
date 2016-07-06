@@ -1,5 +1,5 @@
 #include "light.h"
-
+#include "sdfloader.h"
 Light::Light() {
 	name_ = "unknown";
 	position_ = glm::vec3();

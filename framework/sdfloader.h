@@ -14,6 +14,7 @@
 #include "light.h"
 #include <memory>
 #include "scene.h"  //#include "scene.h"
+#include <map>
 
 class SDFLoader {
 public:
@@ -21,7 +22,7 @@ public:
 
 	static std::vector<std::string> splitLine(std::string line);
 	void readFile(std::string file);
-	std::vector<Material> getMaterials();
+	std::map<std::string, std::shared_ptr<Material>> getMaterials();
 	std::vector<std::shared_ptr<Shape>> getShapes();
 	std::vector<Light> getLights();
 	Camera getCamera();
@@ -30,9 +31,9 @@ public:
 
 
 private:
-    // move to Scene
-    // TODO: std::map<std::string, Material> materials_;
-	std::vector<Material> materials_; // TODO remove
+    // move to Scenes
+	std::map<std::string, std::shared_ptr<Material>> materials_;
+	//std::vector<Material*> materials_; // TODO remove
 	std::vector<std::shared_ptr<Shape>> shapes_;
 	std::vector<Light> lights_;
 	Camera camera_;
