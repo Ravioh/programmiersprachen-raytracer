@@ -8,9 +8,21 @@
 
 struct OptionalHit {
 	OptionalHit(bool h, std::shared_ptr<Shape> const& s)
-	: hit(h), shape(s)
+	: hit(h), 
+	  shape(s)
+	  //intersection 
+	  //normal
 	{}
-	bool hit; // did we hit something
+	bool hit; 
+
+
+	/*
+	float distance;
+	
+	glm::vec3 normal;*/
+	glm::vec3 intersection;
+
+
 	std::shared_ptr<Shape> shape;
 };
 

@@ -6,12 +6,11 @@
 #include <camera.h>
 #include <light.h>
 #include <shape.h>
+#include <map>
 
-class Scene {
+struct Scene {
 
-public:
 	Scene();
-	~Scene();
 
 	void render() const;
 	void add(std::shared_ptr<Material> material);
@@ -24,10 +23,21 @@ public:
 	std::vector<std::shared_ptr<Light>> const& lights() const;
 	std::vector<std::shared_ptr<Camera>> const& cameras() const;
 
-private:
-	std::vector<std::shared_ptr<Shape>> _shapes;
-	std::vector<std::shared_ptr<Material>> _materials;
-	std::vector<std::shared_ptr<Light>> _lights;
-	std::vector<std::shared_ptr<Camera>> _cameras;
+	/*
+	void readFile(std::string file);
+	std::map<std::string, std::shared_ptr<Material>> getMaterials();
+	std::vector<std::shared_ptr<Shape>> getShapes();
+	std::vector<Light> getLights();
+	Camera getCamera();
+	Material checkMaterialName(std::string name);*/
+
+
+	std::vector<std::shared_ptr<Shape>> shapes_;
+	std::map<std::string, Material> materials_;
+	std::vector<std::shared_ptr<Light>> lights_;
+	std::vector<std::shared_ptr<Camera>> cameras_;
+
+	unsigned width = 600; 
+	unsigned height = 600; 
 };
 #endif

@@ -13,7 +13,7 @@
 #include "camera.h"
 #include "light.h"
 #include <memory>
-#include "scene.h"  //#include "scene.h"
+#include "scene.h"  
 #include <map>
 
 class SDFLoader {
@@ -28,9 +28,17 @@ public:
 	Camera getCamera();
 	Material checkMaterialName(std::string name);
 
+	//Scene load_scene(std::string file) const; 
+	//std::string get_file() const; 
+
 
 
 private:
+
+	//std::string file_;
+
+
+
     // move to Scenes
 	std::map<std::string, std::shared_ptr<Material>> materials_;
 	//std::vector<Material*> materials_; // TODO remove

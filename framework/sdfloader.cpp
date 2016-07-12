@@ -6,9 +6,11 @@
 #include <map>
 #include <material.h>
 
-
+using namespace std; 
 
 SDFLoader::SDFLoader() {}
+
+
 
 std::map<std::string, std::shared_ptr<Material>>SDFLoader::getMaterials(){
 	return materials_;
@@ -24,6 +26,8 @@ std::vector<std::shared_ptr<Shape>> SDFLoader::getShapes() {
 }
 
 
+
+//umbauen, extra für jede shape
 void SDFLoader::readFile(std::string file) {
 	std::ifstream ifs(file);
 	char line[256];

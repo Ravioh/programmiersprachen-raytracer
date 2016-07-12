@@ -9,16 +9,18 @@
 #define _USE_MATH_DEFINES
 #define M_PI           3.14159265358979323846
 
+
+#include <scene.h>
 #include "renderer.hpp"
 #include <math.h>
+#include <sdfloader.h>
 
-Renderer::Renderer(unsigned w, unsigned h, std::string const& file, SDFLoader const& sdfloader)
+Renderer::Renderer(Scene const& scene, unsigned w, unsigned h, std::string const& file)
 	: width_(w)
 	, height_(h)
 	, colorbuffer_(w*h, Color(0.0, 0.0, 0.0))
 	, filename_(file)
 	, ppm_(width_, height_)
-	, sdfloader_(sdfloader)
 {}
 
 void Renderer::render() {
@@ -81,13 +83,19 @@ void Renderer::write(Pixel const& p)
   ppm_.write(p);
 }
 
+
+/*Optional_hit Renderer::intersect(Ray const& ray) const{
+	Optional_hit o;
+	Optional_hit temp;
+	std::vector<float> hits;*/
+
 void Renderer::testOutput() {
 	std::cout << "Objects in scene:" << std::endl;
 	for (unsigned int i = 0; i < shapes_.size(); ++i) {
 		std::cout << "Object names: " << shapes_[i]->getName() << std::endl;
 	}
 	for (unsigned int i = 0; i < lights_.size(); ++i) {
-		std::cout << "Lightsource: " << lights_[i]->getName() << std::endl;
+		std::cout << "Lightsource: " << lights_[i].getName() << std::endl;
 	}
 	std::cout << "Camera used: " << camera_.name << " | Focal Length: " << camera_.position.z << std::endl;
 }
@@ -126,7 +134,7 @@ Color Renderer::calculateColor(const Shape* hit_obj, glm::vec3 const& hit_point,
 			specular_light = Color(0.0, 0.0, 0.0);
 		}
 		final_color += diffuse_light + specular_light;
-	} A§"!!
+	} 
 	Color Ia = lights_[0].getLA();
 	Color ka = hit_obj->getMaterial().getKA();
 	Color ambient_light = Ia * ka;
@@ -135,7 +143,7 @@ Color Renderer::calculateColor(const Shape* hit_obj, glm::vec3 const& hit_point,
 	return final_color;
 }
 
-bool Renderer::Shadow(Ray const& sec_ray) const {
+/*bool Renderer::Shadow(Ray const& sec_ray) const {
 	// for (auto const& l : lights) {
 	// }
 	for (unsigned int i = 0; i < shapes_.size(); ++i) {
@@ -145,3 +153,4 @@ bool Renderer::Shadow(Ray const& sec_ray) const {
 	}
 	return false;
 }
+*/
