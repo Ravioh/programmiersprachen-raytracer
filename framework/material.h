@@ -15,10 +15,10 @@ public:
 	~Material();
 
 	std::string getName();
-	Color getKA();
-	Color getKD();
-	Color getKS();
-	float getM();
+	Color getKA() const;
+	Color getKD() const;
+	Color getKS() const;
+	float getM() const;
 
 	friend std::ostream& operator<<(std::ostream& os, Material& m);
 

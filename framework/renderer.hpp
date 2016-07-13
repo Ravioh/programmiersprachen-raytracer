@@ -19,6 +19,7 @@
 #include <shape.h>
 #include "sdfloader.h"
 #include <optional_hit.h>
+#include <scene.h>
 
 class Renderer {
 public:
@@ -42,10 +43,9 @@ public:
   unsigned get_width() const;
   unsigned get_height() const;
   std::string get_filename() const;
-
-
   Scene get_scene() const;
-
+  std::vector<std::shared_ptr<Shape>> const& shapes() const;
+  
 
 
  // OptionalHit intersect(Ray const& ray) const;
@@ -64,12 +64,14 @@ private:
   std::vector<Color> colorbuffer_;
   std::string filename_;
   PpmWriter ppm_;
- // SDFLoader sdfloader_;
+
 
   Scene scene_;
   Camera camera_;
-  std::vector<std::shared_ptr<Shape>> shapes_;
+  
   std::vector<Light> lights_;
+  std::vector<std::shared_ptr<Shape>> shapes_;
+
 };
 
 #endif // #ifndef BUW_RENDERER_HPP

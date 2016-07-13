@@ -17,7 +17,7 @@ public:
 	std::string const& getName() const { return name_; };
 	double intersect(Ray const& ray) const;
 	virtual bool intersect_shadow(Ray const& ray) const = 0;
-	Material const& getMaterial() const { return material_;  }
+	Material const& getMaterial() const { return material_; }
     virtual glm::vec3 getNormalAt(glm::vec3 const& point) const;
 	void translate(glm::vec3 const& t);
 	void scale(glm::vec3 const& s);

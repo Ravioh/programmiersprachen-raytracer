@@ -14,7 +14,7 @@
 #include "renderer.hpp"
 #include <math.h>
 #include <sdfloader.h>
-
+#include <iostream>
 Renderer::Renderer(Scene const& scene, unsigned w, unsigned h, std::string const& file)
 	: width_(w)
 	, height_(h)
@@ -26,9 +26,9 @@ Renderer::Renderer(Scene const& scene, unsigned w, unsigned h, std::string const
 void Renderer::render() {
 
 
-	camera_ = sdfloader_.getCamera();
-	shapes_ = sdfloader_.getShapes();
-	lights_ = sdfloader_.getLights();
+	camera_ = scene_.getCamera();
+	shapes_ = scene_.getShapes();
+	lights_ = scene_.getLights();
 
 	camera_.position = glm::vec3(0, 0, tan((90.0 - camera_.opening_angle / 2.0) * M_PI / 180.0) * (double(width_) / 2.0));
 	testOutput();
@@ -49,7 +49,7 @@ void Renderer::render() {
 				double d = shapes_[i]->intersect(first_ray);
 				if (d > 1.0 && (d < delta || delta == -1)) {
 					delta = d;
-					closest_obj = shapes_[i];
+					closest_obj = shapes_[i].get();
 				}
 			}
 
@@ -99,7 +99,6 @@ void Renderer::testOutput() {
 	}
 	std::cout << "Camera used: " << camera_.name << " | Focal Length: " << camera_.position.z << std::endl;
 }
-
 Color Renderer::calculateColor(const Shape* hit_obj, glm::vec3 const& hit_point, Ray const& first_ray) {
 	Color final_color = Color(0.0, 0.0, 0.0);
 
