@@ -15,7 +15,7 @@ public:
 	Shape(std::string const& n, Material const& m) : name_(n), material_(m) {}
 
 	std::string const& getName() const { return name_; };
-	double intersect(Ray const& ray) const;
+	virtual double intersect(Ray const& ray) const;
 	virtual bool intersect_shadow(Ray const& ray) const = 0;
 	Material const& getMaterial() const { return material_; }
     virtual glm::vec3 getNormalAt(glm::vec3 const& point) const;
@@ -26,6 +26,9 @@ public:
 protected:
   std::string name_;
   Material material_;
+  
+  
+  
 
 
 

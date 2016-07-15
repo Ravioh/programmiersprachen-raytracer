@@ -33,7 +33,7 @@ public:
 
   Color calculateColor(const Shape* hit_obj, glm::vec3 const& hit_point, Ray const& prim_ray);
 
-  bool Shadow(Ray sec_ray);
+  bool Shadow(Ray const& sec_ray) const;
 
   inline std::vector<Color> const& colorbuffer() const {
     return colorbuffer_;
@@ -69,8 +69,10 @@ private:
   Scene scene_;
   Camera camera_;
   
+
   std::vector<Light> lights_;
   std::vector<std::shared_ptr<Shape>> shapes_;
+
 
 };
 

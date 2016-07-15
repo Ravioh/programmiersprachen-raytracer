@@ -10,7 +10,7 @@ struct OptionalHit {
 	OptionalHit(bool h, std::shared_ptr<Shape> const& s)
 	: hit(h), 
 	  shape(s)
-	  //intersection 
+
 	  //normal
 	{}
 	bool hit; 

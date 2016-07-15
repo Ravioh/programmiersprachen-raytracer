@@ -15,13 +15,34 @@
 #include <math.h>
 #include <sdfloader.h>
 #include <iostream>
+#include <shape.h>
+#include <optional_hit.h>
 Renderer::Renderer(Scene const& scene, unsigned w, unsigned h, std::string const& file)
 	: width_(w)
 	, height_(h)
 	, colorbuffer_(w*h, Color(0.0, 0.0, 0.0))
 	, filename_(file)
 	, ppm_(width_, height_)
+	, scene_(scene)
 {}
+
+
+
+Scene Renderer::get_scene() const {
+	return scene_;
+}
+
+Camera Scene::getCamera() {
+	return camera_;
+}
+
+std::vector<std::shared_ptr<Shape>> Scene::getShapes() const {
+	return shapes_;
+}
+
+std::vector<Light> Scene::getLights() const {
+	return lights_;
+}
 
 void Renderer::render() {
 
@@ -84,10 +105,7 @@ void Renderer::write(Pixel const& p)
 }
 
 
-/*Optional_hit Renderer::intersect(Ray const& ray) const{
-	Optional_hit o;
-	Optional_hit temp;
-	std::vector<float> hits;*/
+
 
 void Renderer::testOutput() {
 	std::cout << "Objects in scene:" << std::endl;
@@ -142,9 +160,8 @@ Color Renderer::calculateColor(const Shape* hit_obj, glm::vec3 const& hit_point,
 	return final_color;
 }
 
-/*bool Renderer::Shadow(Ray const& sec_ray) const {
-	// for (auto const& l : lights) {
-	// }
+bool Renderer::Shadow(Ray const& sec_ray) const {
+	
 	for (unsigned int i = 0; i < shapes_.size(); ++i) {
      	double d = shapes_[i]->intersect(sec_ray);
 		if (d > 0 && d < 1)
@@ -152,4 +169,3 @@ Color Renderer::calculateColor(const Shape* hit_obj, glm::vec3 const& hit_point,
 	}
 	return false;
 }
-*/

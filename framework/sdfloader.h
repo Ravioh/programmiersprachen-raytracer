@@ -41,7 +41,6 @@ private:
 
     // move to Scenes
 	std::map<std::string, std::shared_ptr<Material>> materials_;
-	//std::vector<Material*> materials_; // TODO remove
 	std::vector<std::shared_ptr<Shape>> shapes_;
 	std::vector<Light> lights_;
 	Camera camera_;

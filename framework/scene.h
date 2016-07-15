@@ -25,18 +25,19 @@ struct Scene {
 
 	
 	void readFile(std::string file);
-	std::map<std::string, std::shared_ptr<Material>> getMaterials();
-	std::vector<std::shared_ptr<Shape>> getShapes();
-	std::vector<Light> getLights();
+	std::map<std::string, std::shared_ptr<Material>> getMaterials() const;
+	std::vector<std::shared_ptr<Shape>> getShapes() const;
+	std::vector<Light> getLights() const;
 	//std::vector<Camera> getCamera();
 	Camera getCamera();
 	Material checkMaterialName(std::string name);
-
+	
 
 	std::vector<std::shared_ptr<Shape>> shapes_;
 	std::map<std::string, Material> materials_;
-	std::vector<std::shared_ptr<Light>> lights_;
-	std::vector<std::shared_ptr<Camera>> camera_;
+	std::vector<Light> lights_;
+	//std::vector<std::shared_ptr<Camera>> camera_;
+	Camera camera_;
 
 	unsigned width = 600; 
 	unsigned height = 600; 
