@@ -16,8 +16,8 @@ public:
 
 	/* virtual */ std::string getName();
 	/* virtual */ Material getMaterial() const;
-	/* virtual */ double intersect(Ray ray);
-	/* virtual */ glm::vec3 getNormalAt(glm::vec3 point) const;
+	/* virtual */ double intersect(Ray const& ray) const; 
+	virtual  glm::vec3 getNormalAt(glm::vec3 const& point) const;
 	bool intersect_shadow(Ray const& ray) const override { return false; }
 
 	bool isInPlane(glm::vec3 point);

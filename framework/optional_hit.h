@@ -14,12 +14,14 @@ struct OptionalHit {
 	  //normal
 	{}
 	bool hit; 
+	
 
 
-	/*
+
+	
 	float distance;
 	
-	glm::vec3 normal;*/
+	glm::vec3 normal;
 	glm::vec3 intersection;
 
 

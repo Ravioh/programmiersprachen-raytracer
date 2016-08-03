@@ -1,15 +1,15 @@
+#include <scene.h>
 #include "sdfloader.h"
 #include <cstdlib>
 #include <thread>
-#include <scene.h>
 #include <cmath>
 #include <map>
 #include <material.h>
 
 using namespace std; 
 
-SDFLoader::SDFLoader() {}
-
+SDFLoader::SDFLoader()
+        {}
 
 
 std::map<std::string, std::shared_ptr<Material>>SDFLoader::getMaterials(){
@@ -27,8 +27,13 @@ std::vector<std::shared_ptr<Shape>> SDFLoader::getShapes() {
 
 
 
+
 //umbauen, extra für jede shape
-void SDFLoader::readFile(std::string file) {
+//void SDFLoader::readFile(std::string file) {
+Scene SDFLoader::load_scene(std::string file) {  //const
+
+
+	Scene s{};
 	std::ifstream ifs(file);
 	char line[256];
 	std::cout << "\nSDF File content:\n\n" << std::endl;
@@ -188,26 +193,30 @@ void SDFLoader::readFile(std::string file) {
 	} else {
 		std::cout << "Could not open SDF File" << std::endl;
 	}
-	std::cout << "\nFile sucessfully read!\n" << std::endl;
+	std::cout << "\nFile sucessfully read!(scherz)\n" << std::endl;
+
+	return s;
 }
 
 
-/*Material SDFLoader::checkMaterialName(const std::string name) {
-	unsigned int found_at = -1;
-	for (unsigned int j = 0; j < materials_.size() && found_at == -1; ++j) {
-		if (materials_.at(j).getName().compare(name) == 0)
-			found_at = j;
-	}
-	Material material;
-	if (found_at == -1) {
-		material = Material();
-		std::cout << "Error parsing file. No material given or not found. Name of the material: " << name << std::endl;
+Material SDFLoader::checkMaterialName(const std::string name)const{
+
+	std::shared_ptr<Material> material;
+	std::map<std::string, std::shared_ptr<Material>>::const_iterator  it;
+	it = materials_.find(name);
+
+	if (it != materials_.end()){
+		material = it->second;
+
 	}
 	else {
-		material = *materials_.at(found_at);
-	}
-	return material;
-}*/
+		 std::cout << "Error parsing file. No material given or not found. Name of the material: " << name << std::endl;
+	 }
+	
+	return *material;
+}
+
+
 
 
 std::vector<std::string> SDFLoader::splitLine(std::string line) {

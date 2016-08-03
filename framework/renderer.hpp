@@ -48,10 +48,10 @@ public:
   
 
 
- // OptionalHit intersect(Ray const& ray) const;
+  OptionalHit intersect(Ray const& ray) const;
 
 
-  //void render_scene(std::string file);
+//void render_scene(std::string file);
 
 
 

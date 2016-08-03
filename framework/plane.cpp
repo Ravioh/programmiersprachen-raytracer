@@ -14,7 +14,7 @@ Plane::Plane(std::string name, glm::vec3 normal, double d, Material material) : 
 Plane::~Plane() {}
 
 
-double Plane::intersect(Ray ray) {
+double Plane::intersect(Ray const& ray) const {
 
 	if (glm::dot(normal_, ray.direction) != 0) {
 
@@ -39,7 +39,7 @@ std::string Plane::getName() {
 Material Plane::getMaterial() const {
 	return material_;
 }
-glm::vec3 Plane::getNormalAt(glm::vec3 point) const {
+glm::vec3 Plane::getNormalAt(glm::vec3 const& point) const {
 	return normal_;
 }
 double Plane::getD() {

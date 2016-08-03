@@ -15,7 +15,7 @@
 #include <math.h>
 #include <sdfloader.h>
 #include <iostream>
-#include <shape.h>
+#include "shape.h"
 #include <optional_hit.h>
 Renderer::Renderer(Scene const& scene, unsigned w, unsigned h, std::string const& file)
 	: width_(w)
@@ -43,6 +43,9 @@ std::vector<std::shared_ptr<Shape>> Scene::getShapes() const {
 std::vector<Light> Scene::getLights() const {
 	return lights_;
 }
+
+
+
 
 void Renderer::render() {
 

@@ -9,6 +9,11 @@ Sphere::Sphere()
   , radius_()
   {}
 
+Sphere::~Sphere()
+{}
+
+
+
 Sphere::Sphere(std::string const& name, glm::vec3 const& center, double radius, Material const& material)
 : Shape{ name, material },
 center_{ center },
@@ -23,7 +28,7 @@ double Sphere::getRadius()  {
 	return radius_;
 }
 
-glm::vec3 const& Sphere::getNormalAt(glm::vec3 point) const {
+glm::vec3 Sphere::getNormalAt(glm::vec3 const& point) const {
 	return glm::normalize(point - center_);
 }
 
@@ -37,7 +42,7 @@ void Sphere::setRadius(double radius) {
 
 // // // // // // // // // // // // // // // // // // // // // // // // // // // //
 
-double Sphere::intersect(Ray const& ray) {
+double Sphere::intersect(Ray const& ray) const {
 
 	// compute delta and handle cases
 	float a = glm::dot(ray.direction, ray.direction); // a = d*d

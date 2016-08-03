@@ -26,11 +26,11 @@ public:
 	std::vector<std::shared_ptr<Shape>> getShapes();
 	std::vector<Light> getLights();
 	Camera getCamera();
-	Material checkMaterialName(std::string name);
+	Material checkMaterialName(const std::string name) const;
 
-	//Scene load_scene(std::string file) const; 
-	//std::string get_file() const; 
-
+	Scene load_scene(std::string file); 
+	std::string get_file() const; 
+	SDFLoader loader(); 
 
 
 private:
@@ -44,6 +44,7 @@ private:
 	std::vector<std::shared_ptr<Shape>> shapes_;
 	std::vector<Light> lights_;
 	Camera camera_;
+	Scene file_;
 };
 
 #endif // BUW_SDF_LOADER_HPP

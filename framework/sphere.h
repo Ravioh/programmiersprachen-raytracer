@@ -12,11 +12,11 @@ class Sphere : public Shape {
 public:
 	Sphere();
 	Sphere(std::string const& name, glm::vec3 const& center, double radius, Material const& material);
-	~Sphere();
+	Sphere::~Sphere();
 
-	double intersect(Ray const& ray);
+	double intersect(Ray const& ray) const;
 	bool intersect_shadow(Ray const& ray) const override { return false; }
-	glm::vec3 const& getNormalAt(glm::vec3 point) const;
+	glm::vec3  getNormalAt(glm::vec3 const& point) const;
 
 	glm::vec3 const& getCenter() const;
 	double getRadius();
