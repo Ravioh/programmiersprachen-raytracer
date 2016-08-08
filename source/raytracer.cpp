@@ -6,11 +6,17 @@
 
 int main(int argc, char* argv[])
 {
+
+
+	//load scene 
+
+  SDFLoader loader = SDFLoader(); 
+  Scene scene = loader.load_scene("materials.sdf");
+
+
   unsigned const width = 600;
   unsigned const height = 600;
   std::string const filename = "./checkerboard.ppm";
-  SDFLoader loader = SDFLoader(); 
-  Scene scene = loader.load_scene("materials.sdf");
 
 
   Renderer app(scene, width, height, filename);

@@ -44,14 +44,11 @@ public:
   unsigned get_height() const;
   std::string get_filename() const;
   Scene get_scene() const;
-  std::vector<std::shared_ptr<Shape>> const& shapes() const;
+
   
 
 
   OptionalHit intersect(Ray const& ray) const;
-
-
-//void render_scene(std::string file);
 
 
 

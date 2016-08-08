@@ -25,7 +25,6 @@ public:
 	std::map<std::string, std::shared_ptr<Material>> getMaterials();
 	std::vector<std::shared_ptr<Shape>> getShapes();
 	std::vector<Light> getLights();
-	Camera getCamera();
 	Material checkMaterialName(const std::string name) const;
 
 	Scene load_scene(std::string file); 
@@ -35,16 +34,9 @@ public:
 
 private:
 
-	//std::string file_;
 
-
-
-    // move to Scenes
-	std::map<std::string, std::shared_ptr<Material>> materials_;
-	std::vector<std::shared_ptr<Shape>> shapes_;
-	std::vector<Light> lights_;
-	Camera camera_;
 	Scene file_;
+	
 };
 
 #endif // BUW_SDF_LOADER_HPP

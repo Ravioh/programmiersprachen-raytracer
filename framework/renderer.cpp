@@ -28,6 +28,12 @@ Renderer::Renderer(Scene const& scene, unsigned w, unsigned h, std::string const
 
 
 
+
+
+std::map<std::string, std::shared_ptr<Material>>Scene::getMaterials() const{
+	return materials_;
+}
+
 Scene Renderer::get_scene() const {
 	return scene_;
 }
@@ -44,12 +50,17 @@ std::vector<Light> Scene::getLights() const {
 	return lights_;
 }
 
+std::string Renderer::get_filename() const {
+	return filename_; 
+}
+
 
 
 
 void Renderer::render() {
 
 
+	const std::size_t checkersize = 20;
 	camera_ = scene_.getCamera();
 	shapes_ = scene_.getShapes();
 	lights_ = scene_.getLights();
@@ -90,6 +101,7 @@ void Renderer::render() {
 	}
 	ppm_.save(filename_);
 }
+
 
 void Renderer::write(Pixel const& p)
 {

@@ -1,5 +1,6 @@
-#include <scene.h>
+
 #include "sdfloader.h"
+#include "scene.h"
 #include <cstdlib>
 #include <thread>
 #include <cmath>
@@ -11,35 +12,19 @@ using namespace std;
 SDFLoader::SDFLoader()
         {}
 
-
-std::map<std::string, std::shared_ptr<Material>>SDFLoader::getMaterials(){
-	return materials_;
-}
-Camera SDFLoader::getCamera() {
-	return camera_;
-}
-std::vector<Light> SDFLoader::getLights() {
-	return lights_;
-}
-std::vector<std::shared_ptr<Shape>> SDFLoader::getShapes() {
-	return shapes_;
-}
+Scene SDFLoader::load_scene(std::string file) {  
 
 
-
-
-//umbauen, extra für jede shape
-//void SDFLoader::readFile(std::string file) {
-Scene SDFLoader::load_scene(std::string file) {  //const
-
-
-	Scene s{};
+	Scene scene{};
 	std::ifstream ifs(file);
+
 	char line[256];
 	std::cout << "\nSDF File content:\n\n" << std::endl;
+
 	if (ifs.is_open()) {
 
 		while (ifs.good()) {
+
 			ifs.getline(line, 256);
 			std::cout << line << std::endl;
 			std::vector<std::string> words = splitLine(line);
@@ -70,13 +55,11 @@ Scene SDFLoader::load_scene(std::string file) {  //const
 						float m = std::stof(words[i + 12]);
 
 						std::shared_ptr<Material> temp_ptr = std::make_shared<Material>(Material{ name, ka, kd, ks, m });
-						materials_.insert({ name, temp_ptr });
-						i = i + 13;
+						scene.materials_.insert({ name, temp_ptr });
 
-						/*Material new_material(name, ka, kd, ks, m);
-						materials_.insert(new_material);*/
-						
-						
+						i = i + 13;
+					
+
 
 					} else if (words[i + 1].compare("shape") == 0) {
 
@@ -91,7 +74,7 @@ Scene SDFLoader::load_scene(std::string file) {  //const
 							double radius = std::stod(words[i + 7]);
 							Material material = checkMaterialName(words[i + 8]);
 							auto new_sphere = std::make_shared<Sphere>(name, center, radius, material);
-							shapes_.push_back(new_sphere);
+							scene.shapes_.push_back(new_sphere);
 							i = i + 9;
 
 
@@ -105,7 +88,7 @@ Scene SDFLoader::load_scene(std::string file) {  //const
 							double d = std::stod(words[i + 7]);
 							Material material = checkMaterialName(words[i + 8]);
 							auto globbi = std::make_shared<Plane>(name, normal, d, material);
-							shapes_.push_back(globbi);
+							scene.shapes_.push_back(globbi);
 							i = i + 9;
 
 						} else if (words[i + 2].compare("box") == 0) {
@@ -122,7 +105,7 @@ Scene SDFLoader::load_scene(std::string file) {  //const
 								);
 							Material material = checkMaterialName(words[i + 10]);
 							auto new_box = std::make_shared<Box>(name, p0, p1, material);
-							shapes_.push_back(new_box);
+							scene.shapes_.push_back(new_box);
 							i = i + 11;
 
 
@@ -155,9 +138,12 @@ Scene SDFLoader::load_scene(std::string file) {  //const
 					} else if (words[i + 1].compare("camera") == 0) {
 						std::string name = words[i + 2];
 						double opening_angle = std::stod(words[i + 3]);
-						camera_.name = name;
-						camera_.opening_angle = opening_angle;
+						scene.camera_.name = name;
+						scene.camera_.opening_angle = opening_angle;
 						i = i + 4;
+
+
+
 
 					//Lightsource
 					} else if (words[i + 1].compare("light") == 0) {
@@ -178,7 +164,7 @@ Scene SDFLoader::load_scene(std::string file) {  //const
 							std::stof(words[i + 11])
 						);
 						Light manni(name, position, la, ld);
-						lights_.push_back(manni);
+						scene.lights_.push_back(manni);
 						i = i + 12;
 
 					} else {
@@ -195,12 +181,15 @@ Scene SDFLoader::load_scene(std::string file) {  //const
 	}
 	std::cout << "\nFile sucessfully read!(scherz)\n" << std::endl;
 
-	return s;
+	return scene;
 }
 
 
-Material SDFLoader::checkMaterialName(const std::string name)const{
+//material from scene.h 
+Material Scene::checkMaterialName(const std::string name)const{
 
+
+	//this one is working, as tested with the sdf file -> did not find green material (and crashed the whole thing tho)
 	std::shared_ptr<Material> material;
 	std::map<std::string, std::shared_ptr<Material>>::const_iterator  it;
 	it = materials_.find(name);
@@ -213,6 +202,11 @@ Material SDFLoader::checkMaterialName(const std::string name)const{
 		 std::cout << "Error parsing file. No material given or not found. Name of the material: " << name << std::endl;
 	 }
 	
+
+	//testing to see if function was broken 
+	/*std::string heiko = "Bob"; 
+	Material bob = Material(heiko, Color(255, 0, 0), Color(255, 0, 0), Color(255, 0, 0), 1.0f);*/
+
 	return *material;
 }
 
