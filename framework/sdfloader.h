@@ -25,7 +25,7 @@ public:
 	std::map<std::string, std::shared_ptr<Material>> getMaterials();
 	std::vector<std::shared_ptr<Shape>> getShapes();
 	std::vector<Light> getLights();
-	Material checkMaterialName(const std::string name) const;
+	Material checkMaterialName(const std::string name, Scene const& scene) const;
 
 	Scene load_scene(std::string file); 
 	std::string get_file() const; 
@@ -36,6 +36,7 @@ private:
 
 
 	Scene file_;
+	std::map<std::string, std::shared_ptr<Material>> materials_;
 	
 };
 

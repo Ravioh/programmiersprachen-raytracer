@@ -12,7 +12,7 @@ using namespace std;
 SDFLoader::SDFLoader()
         {}
 
-Scene SDFLoader::load_scene(std::string file) {  
+Scene SDFLoader::load_scene(std::string file) {
 
 
 	Scene scene{};
@@ -72,7 +72,7 @@ Scene SDFLoader::load_scene(std::string file) {
 								std::stod(words[i + 6])
 								);
 							double radius = std::stod(words[i + 7]);
-							Material material = checkMaterialName(words[i + 8]);
+							Material material = checkMaterialName(words[i + 8], scene);
 							auto new_sphere = std::make_shared<Sphere>(name, center, radius, material);
 							scene.shapes_.push_back(new_sphere);
 							i = i + 9;
@@ -86,7 +86,7 @@ Scene SDFLoader::load_scene(std::string file) {
 								std::stod(words[i + 6])
 								);
 							double d = std::stod(words[i + 7]);
-							Material material = checkMaterialName(words[i + 8]);
+							Material material = checkMaterialName(words[i + 8], scene);
 							auto globbi = std::make_shared<Plane>(name, normal, d, material);
 							scene.shapes_.push_back(globbi);
 							i = i + 9;
@@ -103,7 +103,7 @@ Scene SDFLoader::load_scene(std::string file) {
 								std::stod(words[i + 8]),
 								std::stod(words[i + 9])
 								);
-							Material material = checkMaterialName(words[i + 10]);
+							Material material = checkMaterialName(words[i + 10], scene);
 							auto new_box = std::make_shared<Box>(name, p0, p1, material);
 							scene.shapes_.push_back(new_box);
 							i = i + 11;
@@ -186,7 +186,7 @@ Scene SDFLoader::load_scene(std::string file) {
 
 
 //material from scene.h 
-Material Scene::checkMaterialName(const std::string name)const{
+Material SDFLoader::checkMaterialName(const std::string name, Scene const& scene)const{
 
 
 	//this one is working, as tested with the sdf file -> did not find green material (and crashed the whole thing tho)

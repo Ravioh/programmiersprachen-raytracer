@@ -30,7 +30,7 @@ Renderer::Renderer(Scene const& scene, unsigned w, unsigned h, std::string const
 
 
 
-std::map<std::string, std::shared_ptr<Material>>Scene::getMaterials() const{
+/*std::map<std::string, std::shared_ptr<Material>>Scene::getMaterials() const{
 	return materials_;
 }
 
@@ -52,7 +52,7 @@ std::vector<Light> Scene::getLights() const {
 
 std::string Renderer::get_filename() const {
 	return filename_; 
-}
+}*/
 
 
 
@@ -61,9 +61,9 @@ void Renderer::render() {
 
 
 	const std::size_t checkersize = 20;
-	camera_ = scene_.getCamera();
-	shapes_ = scene_.getShapes();
-	lights_ = scene_.getLights();
+	camera_ = scene_.camera_;
+	shapes_ = scene_.shapes_;
+	lights_ = scene_.lights_;
 
 	camera_.position = glm::vec3(0, 0, tan((90.0 - camera_.opening_angle / 2.0) * M_PI / 180.0) * (double(width_) / 2.0));
 	testOutput();

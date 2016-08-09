@@ -11,7 +11,7 @@
 struct Scene {
 
 	Scene();
-
+	/*
 	void render();
 	void add(std::shared_ptr<Material> material);
 	void add(std::shared_ptr<Shape> shape);
@@ -32,8 +32,10 @@ struct Scene {
 
 
 	Camera getCamera();
-	Material checkMaterialName(const std::string name) const;
+	Material checkMaterialName(const std::string name) const;*/
 	
+
+	//^ kann weg 
 
 	std::vector<std::shared_ptr<Shape>> shapes_;
 	std::map<std::string, std::shared_ptr<Material>> materials_;
