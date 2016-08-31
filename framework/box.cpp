@@ -83,12 +83,6 @@ double Box::intersect(Ray const& ray) const {
 }
 
 
-/*std::string Box::getName() {
-	return name_;
-}*/
-/*Material Box::getMaterial() const {
-	return material_;
-}*/
 glm::vec3 Box::getNormalAt(glm::vec3 const& point) const {
 	if (point.x == pmin_.x)
 		return glm::vec3(-1, 0, 0);
@@ -112,10 +106,6 @@ glm::vec3 const& Box::getPMax() const {
 	return pmax_;
 }
 
-/*
-void Box::setName(std::string name) {
-	name_ = name;
-}*/
 
 
 void Box::setPMin(glm::vec3	const& pmin) {
@@ -125,8 +115,3 @@ void Box::setPMax(glm::vec3 const& pmax) {
 	pmax_ = pmax;
 }
 
-
-/*
-void Box::setMaterial(Material material) {
-	material_ = material;
-}*/

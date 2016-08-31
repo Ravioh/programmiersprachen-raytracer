@@ -25,16 +25,17 @@ public:
 	std::map<std::string, std::shared_ptr<Material>> getMaterials();
 	std::vector<std::shared_ptr<Shape>> getShapes();
 	std::vector<Light> getLights();
-	Material checkMaterialName(const std::string name, Scene const& scene) const;
+	Material checkMaterialName(const std::string name, Scene scene) const;
 
 	Scene load_scene(std::string file); 
 	std::string get_file() const; 
 	SDFLoader loader(); 
+	Scene scene; 
 
 
 private:
 
-
+	
 	Scene file_;
 	std::map<std::string, std::shared_ptr<Material>> materials_;
 	

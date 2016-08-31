@@ -19,6 +19,7 @@ public:
 	Color getKD() const;
 	Color getKS() const;
 	float getM() const;
+	bool refraction;
 
 	friend std::ostream& operator<<(std::ostream& os, Material& m);
 

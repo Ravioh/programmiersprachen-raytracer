@@ -31,9 +31,10 @@ public:
 
   void testOutput();
 
-  Color calculateColor(const Shape* hit_obj, glm::vec3 const& hit_point, Ray const& prim_ray);
-
+  Color calculateColor(const Shape* hit_obj, glm::vec3 const& hit_point, Ray const& first_ray, unsigned int depth);
+  void calculateReflectedColor(Color & final_color, glm::vec3 hit_obj, Ray const& ray, unsigned int depth);
   bool Shadow(Ray const& sec_ray) const;
+
 
   inline std::vector<Color> const& colorbuffer() const {
     return colorbuffer_;
@@ -50,9 +51,6 @@ public:
 
   OptionalHit intersect(Ray const& ray) const;
 
-
-
-  //Colors still missing? 
 
 
 private:

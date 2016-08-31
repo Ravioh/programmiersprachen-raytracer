@@ -30,32 +30,6 @@ Renderer::Renderer(Scene const& scene, unsigned w, unsigned h, std::string const
 
 
 
-/*std::map<std::string, std::shared_ptr<Material>>Scene::getMaterials() const{
-	return materials_;
-}
-
-Scene Renderer::get_scene() const {
-	return scene_;
-}
-
-Camera Scene::getCamera() {
-	return camera_;
-}
-
-std::vector<std::shared_ptr<Shape>> Scene::getShapes() const {
-	return shapes_;
-}
-
-std::vector<Light> Scene::getLights() const {
-	return lights_;
-}
-
-std::string Renderer::get_filename() const {
-	return filename_; 
-}*/
-
-
-
 
 void Renderer::render() {
 
@@ -69,6 +43,8 @@ void Renderer::render() {
 	testOutput();
 
 	Ray first_ray;
+	unsigned int depth;
+	depth = 4; 
 	for (unsigned y = 0; y < height_; ++y) {
 		for (unsigned x = 0; x < width_; ++x) {
 			Pixel p(x, y);
@@ -89,11 +65,13 @@ void Renderer::render() {
 			}
 
 			if (delta == -1) {
-				p.color = Color(0.0, 0.0, 0.0);
+				p.color = Color(0.0, 0.0, 0.0); //background color -> nothing hit = black
 			} else {
 				glm::vec3 hit_point = first_ray.origin + (float) delta * first_ray.direction;
-				p.color = calculateColor(closest_obj, hit_point, first_ray);
+				p.color = calculateColor(closest_obj, hit_point, first_ray, depth);
 			}
+			
+			
 
 			// draw pixel
 			write(p);
@@ -132,8 +110,11 @@ void Renderer::testOutput() {
 	}
 	std::cout << "Camera used: " << camera_.name << " | Focal Length: " << camera_.position.z << std::endl;
 }
-Color Renderer::calculateColor(const Shape* hit_obj, glm::vec3 const& hit_point, Ray const& first_ray) {
-	Color final_color = Color(0.0, 0.0, 0.0);
+Color Renderer::calculateColor(const Shape* hit_obj, glm::vec3 const& hit_point, Ray const& first_ray, unsigned int  depth)  {
+	Color final_color;
+	float c = 0.001;
+
+
 
 	for (unsigned int i = 0; i < lights_.size(); ++i) {
 
@@ -150,30 +131,64 @@ Color Renderer::calculateColor(const Shape* hit_obj, glm::vec3 const& hit_point,
 			Color kd = hit_obj->getMaterial().getKD();
 			diffuse_light = (Ip * kd * glm::dot(glm::normalize(n), glm::normalize(l)));
 
-			glm::vec3 r = 2 * glm::dot(glm::normalize(n), glm::normalize(l)) * glm::normalize(n) - glm::normalize(l);
+			glm::vec3 r = 2 * glm::dot(glm::normalize(n), glm::normalize(l)) * glm::normalize(n) - glm::normalize(l); //reflection 
 			glm::vec3 v = glm::normalize(first_ray.direction);
+			float rv = glm::dot(r, v);
+
 			v *= -1;
-			if (glm::dot(r, v) > 0) {
+			if (glm::dot(r, v) > 0) { //if hit 
 				double m = hit_obj->getMaterial().getM();
 				Color ks = hit_obj->getMaterial().getKS();
 				specular_light = ks * pow(glm::dot(r, v), m);
-			} else {
+			}
+			else {
 				specular_light = Color(0.0, 0.0, 0.0);
 			}
-		} else {
+		}
+		else {
 
 			diffuse_light = Color(0.0, 0.0, 0.0);
-			specular_light = Color(0.0, 0.0, 0.0);
+			specular_light = Color(0.01, 0.01, 0.01);
 		}
-		final_color += diffuse_light + specular_light;
-	} 
-	Color Ia = lights_[0].getLA();
-	Color ka = hit_obj->getMaterial().getKA();
-	Color ambient_light = Ia * ka;
-	final_color += ambient_light;
 
-	return final_color;
-}
+
+
+
+		/*
+		Color reflect = hit_obj->getMaterial().getKS();
+		
+		if (depth > 1)
+		{
+			glm::vec3 v = (first_ray.direction);
+			float vn = glm::dot(n, v);
+			glm::vec3 r =  glm::normalize(v - 2 * vn*n);   // reflection vector
+
+			Ray reflectionRay{ hit_point, r };
+			reflectionRay.origin += reflectionRay.direction * c;
+
+			Color reflectedColor = calculateColor(hit_obj, hit_point, reflectionRay, depth -1);   // recursion
+	
+			
+			final_color += (reflectedColor)*(reflect);
+	
+	
+		}*/
+
+		final_color += diffuse_light + specular_light;
+		
+
+	}
+
+
+		Color Ia = lights_[0].getLA();
+		Color ka = hit_obj->getMaterial().getKA();
+		Color ambient_light = Ia * ka;
+		final_color += ambient_light;
+
+		return final_color;
+	}
+
+
 
 bool Renderer::Shadow(Ray const& sec_ray) const {
 	
@@ -184,3 +199,5 @@ bool Renderer::Shadow(Ray const& sec_ray) const {
 	}
 	return false;
 }
+
+

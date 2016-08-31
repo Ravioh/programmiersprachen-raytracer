@@ -22,9 +22,8 @@ Scene SDFLoader::load_scene(std::string file) {
 	std::cout << "\nSDF File content:\n\n" << std::endl;
 
 	if (ifs.is_open()) {
-
+		std::cout << "is open" << std::endl;
 		while (ifs.good()) {
-
 			ifs.getline(line, 256);
 			std::cout << line << std::endl;
 			std::vector<std::string> words = splitLine(line);
@@ -54,7 +53,7 @@ Scene SDFLoader::load_scene(std::string file) {
 						);
 						float m = std::stof(words[i + 12]);
 
-						std::shared_ptr<Material> temp_ptr = std::make_shared<Material>(Material{ name, ka, kd, ks, m });
+						std::shared_ptr<Material> temp_ptr = std::make_shared<Material>(Material{ name, ka, kd, ks, m});
 						scene.materials_.insert({ name, temp_ptr });
 
 						i = i + 13;
@@ -83,8 +82,7 @@ Scene SDFLoader::load_scene(std::string file) {
 							glm::vec3 normal = glm::vec3(
 								std::stod(words[i + 4]),
 								std::stod(words[i + 5]),
-								std::stod(words[i + 6])
-								);
+								std::stod(words[i + 6]));
 							double d = std::stod(words[i + 7]);
 							Material material = checkMaterialName(words[i + 8], scene);
 							auto globbi = std::make_shared<Plane>(name, normal, d, material);
@@ -179,22 +177,20 @@ Scene SDFLoader::load_scene(std::string file) {
 	} else {
 		std::cout << "Could not open SDF File" << std::endl;
 	}
-	std::cout << "\nFile sucessfully read!(scherz)\n" << std::endl;
+	std::cout << "\nFile sucessfully read!\n" << std::endl;
 
 	return scene;
 }
 
 
 //material from scene.h 
-Material SDFLoader::checkMaterialName(const std::string name, Scene const& scene)const{
+Material SDFLoader::checkMaterialName(const std::string name, Scene scene)const{
 
-
-	//this one is working, as tested with the sdf file -> did not find green material (and crashed the whole thing tho)
 	std::shared_ptr<Material> material;
 	std::map<std::string, std::shared_ptr<Material>>::const_iterator  it;
-	it = materials_.find(name);
+	it = scene.materials_.find(name);
 
-	if (it != materials_.end()){
+	if (it != scene.materials_.end()){
 		material = it->second;
 
 	}
@@ -202,10 +198,6 @@ Material SDFLoader::checkMaterialName(const std::string name, Scene const& scene
 		 std::cout << "Error parsing file. No material given or not found. Name of the material: " << name << std::endl;
 	 }
 	
-
-	//testing to see if function was broken 
-	/*std::string heiko = "Bob"; 
-	Material bob = Material(heiko, Color(255, 0, 0), Color(255, 0, 0), Color(255, 0, 0), 1.0f);*/
 
 	return *material;
 }
