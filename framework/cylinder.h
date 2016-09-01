@@ -24,11 +24,11 @@ public:
 	glm::vec3 const& get_centertopdisk() const;
 	float const& get_radius() const;
 
-	double intersect(Ray const& ray, float& distance, glm::vec3& intersection,
-		glm::vec3& normal)const;
+	double intersect(Ray const& ray, float& distance, glm::vec3& intersection, glm::vec3& normal)const;
+	bool intersect_shadow(Ray const& ray) const override { return false; }
 
 
-	/*virtual*/ std::ostream& print(std::ostream& os) const;
+	std::ostream& print(std::ostream& os) const;
 
 private:
 	glm::vec3 centerbasedisk_;	// Center of base disk

@@ -25,6 +25,7 @@ public:
 	
 
 	double intersect(Ray const& ray, float& distance, glm::vec3& intersection, glm::vec3& normal)const;
+	bool intersect_shadow(Ray const& ray) const override { return false; }
 
 	std::ostream& print(std::ostream& os) const;
 
