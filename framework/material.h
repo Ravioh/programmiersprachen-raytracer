@@ -14,21 +14,31 @@ public:
 	Material(std::string name, const Color ka, const Color kd, const Color ks, float m);
 	~Material();
 
+
+
 	std::string getName();
 	Color getKA() const;
 	Color getKD() const;
 	Color getKS() const;
 	float getM() const;
 	bool refraction;
+	bool is_reflective() {
+		return ks_.r > 0 && ks_.g > 0 && ks_.b > 0;
+	}
+
+
 
 	friend std::ostream& operator<<(std::ostream& os, Material& m);
 
 private:
+
+
 	std::string name_;
 	Color ka_;
 	Color kd_;
 	Color ks_;
 	float m_;
+
 
 };
 

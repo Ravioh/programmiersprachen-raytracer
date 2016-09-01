@@ -153,15 +153,14 @@ Color Renderer::calculateColor(const Shape* hit_obj, glm::vec3 const& hit_point,
 
 
 
-
-		/*
+		//reflection starts here
 		Color reflect = hit_obj->getMaterial().getKS();
 		
 		if (depth > 1)
 		{
-			glm::vec3 v = (first_ray.direction);
-			float vn = glm::dot(n, v);
-			glm::vec3 r =  glm::normalize(v - 2 * vn*n);   // reflection vector
+			glm::vec3 v = (first_ray.direction); //get first ray 
+			float vn = glm::dot(hit_point, v); 
+			glm::vec3 r =  glm::normalize(v - 2 * vn*hit_point);   // reflection vector
 
 			Ray reflectionRay{ hit_point, r };
 			reflectionRay.origin += reflectionRay.direction * c;
@@ -169,12 +168,13 @@ Color Renderer::calculateColor(const Shape* hit_obj, glm::vec3 const& hit_point,
 			Color reflectedColor = calculateColor(hit_obj, hit_point, reflectionRay, depth -1);   // recursion
 	
 			
-			final_color += (reflectedColor)*(reflect);
+			//final_color += (reflectedColor)*(reflect);
 	
 	
-		}*/
+		}
+	
 
-		final_color += diffuse_light + specular_light;
+		final_color += diffuse_light + specular_light; //normal lighting 
 		
 
 	}
@@ -183,7 +183,7 @@ Color Renderer::calculateColor(const Shape* hit_obj, glm::vec3 const& hit_point,
 		Color Ia = lights_[0].getLA();
 		Color ka = hit_obj->getMaterial().getKA();
 		Color ambient_light = Ia * ka;
-		final_color += ambient_light;
+		final_color += ambient_light; 
 
 		return final_color;
 	}
@@ -193,11 +193,9 @@ Color Renderer::calculateColor(const Shape* hit_obj, glm::vec3 const& hit_point,
 bool Renderer::Shadow(Ray const& sec_ray) const {
 	
 	for (unsigned int i = 0; i < shapes_.size(); ++i) {
-     	double d = shapes_[i]->intersect(sec_ray);
-		if (d > 0 && d < 1)
+     	double d = shapes_[i]->intersect(sec_ray);  //when shape is hit -> sec_ray 
+		if (d > 0 && d < 1) 
 			return true;
 	}
 	return false;
 }
-
-

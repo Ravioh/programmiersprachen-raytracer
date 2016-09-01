@@ -6,6 +6,7 @@
 #include <cmath>
 #include <map>
 #include <material.h>
+#include <shape.h>
 
 using namespace std; 
 
@@ -14,6 +15,7 @@ SDFLoader::SDFLoader()
 
 Scene SDFLoader::load_scene(std::string file) {
 
+	
 
 	Scene scene{};
 	std::ifstream ifs(file);
@@ -58,7 +60,18 @@ Scene SDFLoader::load_scene(std::string file) {
 
 						i = i + 13;
 					
+					
+					}else if (words[i + 1].compare("transformers") == 0) {
 
+						if (words[i + 2].compare ("rotate") == 0)
+
+
+
+						if (words[i + 2].compare("scale") == 0)
+
+						if (words[i + 2].compare("translate") == 0)
+
+							;
 
 					} else if (words[i + 1].compare("shape") == 0) {
 
@@ -107,26 +120,6 @@ Scene SDFLoader::load_scene(std::string file) {
 							i = i + 11;
 
 
-							/*	} else if (words[i + 2] == "triangle") {
-							std::string name = words [i+3];
-							glm::vec3 left = glm:vec3(
-								std::stof(words[i + 4])
-								std::stof(words[i + 5]),
-								std::stof(words[i + 6])
-								);
-							glm::vec3 right = glm:vec3(
-								std::stof(words[i + 7]),
-								std::stof(words[i + 8]),
-								std::stof(words[i + 9]) };
-								glm::vec3 top = glm:vec3(
-								std::stof(words[i + 10]),
-								std::stof(words[i + 11]),
-								std::stof(words[i + 12]) };
-						
-							}*/
-
-
-
 						//If shape not supported
 						} else {
 							std::cout << "Error, usage of unknown shape." << std::endl;
@@ -136,9 +129,29 @@ Scene SDFLoader::load_scene(std::string file) {
 					} else if (words[i + 1].compare("camera") == 0) {
 						std::string name = words[i + 2];
 						double opening_angle = std::stod(words[i + 3]);
+						glm::vec3 direction = glm::vec3(
+								std::stod(words[i + 4]),
+								std::stof(words[i + 5]),
+								std::stof(words[i + 6]));
+						
+						glm::vec3 upvector = glm::vec3(
+							std::stod(words[i + 7]),
+							std::stof(words[i + 8]),
+							std::stof(words[i + 9]));
+
+						glm::vec3 origin = glm::vec3(
+							std::stod(words[i + 10]),
+							std::stof(words[i + 11]),
+							std::stof(words[i + 12]));
+
+
+						scene.camera_.upvector = upvector;
+						scene.camera_.direction = direction;
+						scene.camera_.origin = origin;
 						scene.camera_.name = name;
 						scene.camera_.opening_angle = opening_angle;
-						i = i + 4;
+					
+						i = i + 13;
 
 
 
@@ -215,4 +228,6 @@ std::vector<std::string> SDFLoader::splitLine(std::string line) {
 	}
 	return words;
 }
+
+
 

@@ -12,8 +12,8 @@ using namespace std;
 class Shape {
 public:
 	Shape();
-	Shape(std::string const& n, Material const& m) : name_(n), material_(m) {}
-
+	Shape(std::string const& n, Material const& m);
+	// : name_(n), material_(m) {}
 	std::string const& getName() const { return name_; };
 	virtual double intersect(Ray const& ray) const = 0;
 	virtual bool intersect_shadow(Ray const& ray) const = 0;
@@ -29,8 +29,8 @@ public:
 	glm::mat4 world_transform_inv_;
 
 
-	glm::mat4 world_transform_T_;
-	glm::mat4 world_transform_inv_T_;
+	glm::mat3 world_transform_T_;
+	glm::mat3 world_transform_inv_T_;
 
 
 
@@ -40,18 +40,6 @@ protected:
   
   
   
-
-
-
-/*  glm::vec3 world_normal(glm::vec3 const& n) const;
-
-  Ray object_ray(Ray const& r) const;
-
-
-  /*
-  //Transforms go here
-
-  */
 };
 
 
